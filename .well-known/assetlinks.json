@@ -1,0 +1,15 @@
+
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.bonnenapp.curacao",
+      "sha256_cert_fingerprints": [
+        "C0:CE:0D:B9:54:CB:B7:CF:62:F9:16:15:0B:C2:EE:52:A1:A1:F5:3A:A1:08:46:90:1F:B2:71:45:BA:80:27:B3"
+      ]
+    }
+  }
+]
