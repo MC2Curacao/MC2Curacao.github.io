@@ -3,12 +3,83 @@
 <html lang="nl">
 <head>
   <meta charset="utf-8">
-  <title>Urendeclaraties - pCloud</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Urendeclaraties - pCloud terugkeer</title>
+  <style>
+    body {
+      font: 16px system-ui, sans-serif;
+      max-width: 32rem;
+      margin: 3rem auto;
+      padding: 0 1.25rem;
+      color: #19354a;
+      line-height: 1.5;
+    }
+    button {
+      border: 0;
+      background: #176c8e;
+      color: white;
+      border-radius: 9px;
+      padding: 14px 20px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #openapp[hidden] { display: none; }
+  </style>
 </head>
 <body>
-  <h2>Urendeclaraties</h2>
-  <p>Terugkeer naar Urendeclaraties op Android.</p>
-  <p>Als de app niet automatisch opent,
-  moet de Android App Link nog worden gecontroleerd.</p>
+  <h1>Urendeclaraties</h1>
+  <p id="status">
+    De terugkeer naar de Android-app wordt voorbereid.
+  </p>
+  <button id="openapp" type="button" hidden>
+    Open Urendeclaraties
+  </button>
+  <p>
+    Deze pagina is uitsluitend bedoeld voor
+    Urendeclaraties. BonnenApp verandert niet.
+  </p>
+
+<script>
+(() => {
+  'use strict';
+
+  const status = document.getElementById('status');
+  const btn = document.getElementById('openapp');
+
+  const raw = location.hash.startsWith('#')
+    ? location.hash.slice(1) : '';
+
+  const data = new URLSearchParams(raw);
+
+  if (location.hash) {
+    history.replaceState(null, '', location.pathname);
+  }
+
+  if (!data.get('access_token') ||
+      !data.get('state') ||
+      data.get('token_type')?.toLowerCase() !== 'bearer') {
+    status.textContent =
+      'Geen geldige aanmeldgegevens ontvangen. ' +
+      'Start de pCloud-koppeling opnieuw vanuit de app.';
+    return;
+  }
+
+  const target = 'intent://oauth?' + raw +
+    '#Intent;scheme=urendeclaraties;' +
+    'package=com.mc2curacao.urendeclaraties;' +
+    'action=android.intent.action.VIEW;end';
+
+  status.textContent =
+    'Toestemming ontvangen. Tik hieronder om ' +
+    'terug te keren naar de app.';
+
+  btn.hidden = false;
+  btn.addEventListener('click', () => {
+    location.href = target;
+  });
+})();
+</script>
 </body>
 </html>
